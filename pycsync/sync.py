@@ -3,34 +3,50 @@
 import os
 import flickr_api
 
+from pycsync import auth
+
 def sync(user):
-    flickr_api.method_call.set_keys('e81b828b075041b2a22b7c1663efc492',
-                                    'b1174b27c8cdb649')
+    auth.set_api_keys()
     a = flickr_api.auth.AuthHandler.load('.pycsync')
     flickr_api.set_auth_handler(a)
     u = flickr_api.Person.findByUserName(user)
     ps = u.getPhotosets()
+    current_sets = dict()
+    for pset in ps:
+        current_sets[pset.title] = pset
+    upload(current_sets)
 
-    for i,p in enumerate(ps) :
-        print i,p.title
-    upload()
 
-
-def upload():
+def upload(current_sets):
 
     dirs = [s for s in os.listdir(os.path.curdir) if os.path.isdir(s)]
 
-    photos = list()
     for s in dirs:
+        photos = list()
+        current_set = current_sets.get(s)
+        current_photos = list()
+        if current_set:
+            set_photos = current_set.getPhotos()
+            for photo in set_photos:
+                current_photos.append(photo.title)
+
         files = [p for p in os.listdir(
             os.path.join(os.path.curdir, s)) if os.path.isfile(
                 os.path.join(os.path.curdir, s, p))]
         for p in files:
-            photos.append(flickr_api.upload(photo_file=os.path.join(s, p)))
+            if not os.path.splitext(p)[0] in current_photos:
+                photos.append(flickr_api.upload(photo_file=os.path.join(s, p)))
 
-        first_photo = photos[0]
-        other_photos = photos[1:]
-        set_ = flickr_api.Photoset.create(title=s, primary_photo=first_photo)
-        for p in other_photos:
-            set_.addPhoto(photo=p)
+        if len(photos) > 0:
+            if not current_set:
+                first_photo = photos[0]
+                other_photos = photos[1:]
+                set_ = flickr_api.Photoset.create(title=s,
+                                                  primary_photo=first_photo)
+            else:
+                set_ = current_set
+                other_photos = photos
+
+            for p in other_photos:
+                set_.addPhoto(photo=p)
 
