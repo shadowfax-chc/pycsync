@@ -1,0 +1,18 @@
+build
+*.py[co]
+pkg/arch/*.tar.xz
+*.swp
+doc/_build
+dist
+MANIFEST
+*~
+*#
+.pyenv
+# tox - ignore any tox-created virtualenv dirs
+.tox
+# setuptools stuff
+*.egg-info
+# code coverage outputs genereated by coverage.py
+.coverage
+coverage.xml
+tags
