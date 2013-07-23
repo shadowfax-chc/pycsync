@@ -1,0 +1,6 @@
+#!/bin/env python
+
+from pycsync.cli import pycsync_main
+
+if __name__ == '__main__':
+    pycsync_main()
