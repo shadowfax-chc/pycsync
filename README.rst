@@ -1,4 +1,5 @@
-=======================================================
-**Pycsync** Sync pictures between filesystem and Flickr
-=======================================================
+=======
+Pycsync
+=======
 
+Sync pictures between filesystem and Flickr
