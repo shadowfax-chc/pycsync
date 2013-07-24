@@ -1,4 +1,7 @@
 #!/bin/env python
+'''
+Script to run pycsync
+'''
 
 from pycsync.cli import pycsync_main
 
