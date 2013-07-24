@@ -6,10 +6,11 @@ pycsync.cli
 Module for command line script functions (aka a place for main).
 '''
 
-import os
+from os.path import curdir
 import argparse
 
 from pycsync import version, auth, sync
+
 
 def pycsync_main():
     '''
@@ -17,24 +18,21 @@ def pycsync_main():
     and calling the functions to preform syncing.
     '''
     parser = argparse.ArgumentParser(description='Sync pictures with Flickr.')
-    parser.add_argument(
-        '-p', '--path',
-        default=None,
-        help='Root directory to sync. Defaults to current directory')
-    parser.add_argument(
-        '-a', '--auth',
-        action='store_true',
-        default=False,
-        help='Request authorization token')
-    parser.add_argument(
-        '-v', '--version',
-        action='store_true',
-        default=False,
-        help='Display pycsync version')
+    parser.add_argument('-p', '--path',
+                        default=None,
+                        help='Root directory to sync. Defaults to cwd.')
+    parser.add_argument('-a', '--auth',
+                        action='store_true',
+                        default=False,
+                        help='Request authorization token')
+    parser.add_argument('-v', '--version',
+                        action='store_true',
+                        default=False,
+                        help='Display pycsync version')
     args = parser.parse_args()
 
     if args.path is None:
-        args.path = os.path.curdir
+        args.path = curdir
     if args.version:
         print version.__version__
     elif args.auth:

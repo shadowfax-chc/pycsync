@@ -7,10 +7,12 @@ Module where the magic happens. Functions here are used for uploading and
 downloading files/sets to and from Flickr.
 '''
 
-import os
-import flickr_api
+from os import listdir
+from os.path import splitext, isdir, isfile, join as pjoin
+import flickr_api as fapi
 
 from pycsync import auth
+
 
 def sync(rootdir):
     '''
@@ -31,7 +33,7 @@ def _get_photosets():
 
     Returns a dict of Photosets by set title.
     '''
-    user = flickr_api.test.login()
+    user = fapi.test.login()
     photosets = user.getPhotosets()
     current_sets = dict()
     for pset in photosets:
@@ -54,30 +56,29 @@ def upload(rootdir, current_sets):
         A dict of PhotoSets by title that are already uploaded.
     '''
 
-    dirs = [d for d in os.listdir(rootdir) if os.path.isdir(
-            os.path.join(rootdir, d))]
+    dirs = [dir_ for dir_ in listdir(rootdir) if isdir(pjoin(rootdir, dir_))]
 
-    for d in dirs:
+    for dir_ in dirs:
         files = list()
         uploaded_photos = list()
 
         # Attempt to get the set that would match this dir.
-        photoset = current_sets.get(d)
+        photoset = current_sets.get(dir_)
         if photoset:
             # Set already exists. Get all photos in set by title.
             for photo in photoset.getPhotos():
                 uploaded_photos.append(photo.title)
 
         # Get all the files in this dir.
-        fulldir = os.path.join(rootdir, d)
-        files = [f for f in os.listdir(fulldir) if os.path.isfile(
-                os.path.join(fulldir, f))]
+        fulldir = pjoin(rootdir, dir_)
+        files = [file_ for file_ in listdir(fulldir) if isfile(pjoin(fulldir,
+                                                                     file_))]
 
         # Upload new files. Storing the returned Photo in uploaded_photos.
-        for f in files:
-            if not os.path.splitext(f)[0] in uploaded_photos:
-                uploaded_photos.append(flickr_api.upload(
-                        photo_file=os.path.join(fulldir, f)))
+        for file_ in files:
+            if not splitext(file_)[0] in uploaded_photos:
+                uploaded_photos.append(fapi.upload(photo_file=pjoin(fulldir,
+                                                                    file_)))
 
         # If we actually uploaded something.
         if len(uploaded_photos) > 0:
@@ -86,10 +87,9 @@ def upload(rootdir, current_sets):
             if not photoset:
                 first = uploaded_photos[0]
                 uploaded_photos = uploaded_photos[1:]
-                photoset = flickr_api.Photoset.create(title=d,
-                                                      primary_photo=first)
+                photoset = fapi.Photoset.create(title=dir_,
+                                                primary_photo=first)
 
             # Finally add any uploaded photo to the set
             for photo in uploaded_photos:
                 photoset.addPhoto(photo=photo)
-

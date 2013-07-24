@@ -6,8 +6,9 @@ pycsync.auth
 Module for authentication related functions.
 '''
 
-import os
-import flickr_api
+from os.path import join as pjoin
+import flickr_api as fapi
+
 
 def request_token(rootdir):
     '''
@@ -18,17 +19,17 @@ def request_token(rootdir):
         The root directory to sync.
     '''
     set_api_keys()
-    authfile = os.path.join(rootdir, '.pycsync')
+    authfile = pjoin(rootdir, '.pycsync')
     prompt = 'Please visit to get an verifier code:\n' \
              '---------------------------------\n' \
              '{0}\n' \
              '---------------------------------\n' \
              'Please input the verifier code here: '
-    a = flickr_api.auth.AuthHandler()
-    url = a.get_authorization_url('write')
+    auth = fapi.auth.AuthHandler()
+    url = auth.get_authorization_url('write')
     verifier = raw_input(prompt.format(url))
-    a.set_verifier(str(verifier))
-    a.write(authfile)
+    auth.set_verifier(str(verifier))
+    auth.write(authfile)
 
 
 def setup_auth_handler(rootdir):
@@ -39,13 +40,12 @@ def setup_auth_handler(rootdir):
         The root directory to sync.
     '''
     set_api_keys()
-    authfile = os.path.join(rootdir, '.pycsync')
-    flickr_api.set_auth_handler(authfile)
+    authfile = pjoin(rootdir, '.pycsync')
+    fapi.set_auth_handler(authfile)
 
 
 def set_api_keys():
     '''
     Set up the client api keys.
     '''
-    flickr_api.keys.set_keys('e81b828b075041b2a22b7c1663efc492',
-                             'b1174b27c8cdb649')
+    fapi.keys.set_keys('e81b828b075041b2a22b7c1663efc492', 'b1174b27c8cdb649')
