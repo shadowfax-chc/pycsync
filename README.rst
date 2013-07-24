@@ -3,3 +3,52 @@ Pycsync
 =======
 
 Sync pictures between filesystem and Flickr
+
+Install
+-------
+
+This uses the python_flickr_api_ (many thanks to `Alexis Mignon`_). 
+
+The best way to currently install python_flickr_api_ (at least until a new
+release is made) is from git.::
+
+    pip install https://github.com/alexis-mignon/python-flickr-api/tarball/master
+
+Then install pycsync.::
+
+    pip install https://github.com/shadowfax-chc/pycsync/tarball/master
+
+
+Usage
+-----
+
+First oauth needs to be setup for the application::  
+
+    pycsync -a
+
+Then copy the link to a browser. After authorizing pycsync copy the
+``oauth_verifier`` and input it to pycsync.
+
+``NOTE:`` pycsync can either be run from the sync directory or the directory
+can be specified with the ``-p`` option.
+
+Now to sync simply run::
+
+    pycsync
+
+
+Limitations
+-----------
+
+Currently there are several limitaions (Wokring on resolving them).
+
+1. Only syncs a file once. Currently once a file exists, it will not be synced
+   if it changes.
+2. Requires flat file structure. The file system layout must contain one level
+   of directories with files in them. The directories will be mapped to Photo
+   Sets. Any subdirectories will be ignored. Also any top-level files will be
+   ignored.
+
+
+.. _python_flickr_api: https://github.com/alexis-mignon/python-flickr-api
+.. _Alexis Mignon: https://github.com/alexis-mignon
