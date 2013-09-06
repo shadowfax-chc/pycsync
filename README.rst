@@ -7,14 +7,9 @@ Sync pictures between filesystem and Flickr
 Install
 -------
 
-This uses the python_flickr_api_ (many thanks to `Alexis Mignon`_). 
+This uses the python_flickr_api_ (many thanks to `Alexis Mignon`_).
 
-The best way to currently install python_flickr_api_ (at least until a new
-release is made) is from git.::
-
-    pip install https://github.com/alexis-mignon/python-flickr-api/tarball/master
-
-Then install pycsync.::
+To install latest::
 
     pip install https://github.com/shadowfax-chc/pycsync/tarball/master
 
@@ -22,7 +17,7 @@ Then install pycsync.::
 Usage
 -----
 
-First oauth needs to be setup for the application::  
+First oauth needs to be setup for the application::
 
     pycsync -a
 
