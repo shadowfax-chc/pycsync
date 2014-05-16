@@ -6,6 +6,10 @@ Pycsync
     :target: https://travis-ci.org/shadowfax-chc/pycsync
     :alt: Build Status
 
+.. image:: https://coveralls.io/repos/shadowfax-chc/pycsync/badge.png
+    :target: https://coveralls.io/r/shadowfax-chc/pycsync
+    :alt: Coverage Status
+
 .. image:: https://landscape.io/github/shadowfax-chc/pycsync/master/landscape.png
     :target: https://landscape.io/github/shadowfax-chc/pycsync/master
     :alt: Code Health
