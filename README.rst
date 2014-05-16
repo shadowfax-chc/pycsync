@@ -2,6 +2,14 @@
 Pycsync
 =======
 
+.. image:: https://landscape.io/github/shadowfax-chc/pycsync/master/landscape.png
+    :target: https://landscape.io/github/shadowfax-chc/pycsync/master
+    :alt: Code Health
+
+.. image:: https://gemnasium.com/shadowfax-chc/pycsync.svg
+    :target: https://gemnasium.com/shadowfax-chc/pycsync
+    :alt: Dependency Status
+
 Sync pictures between filesystem and Flickr
 
 Install
