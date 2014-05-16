@@ -15,4 +15,5 @@ MANIFEST
 # code coverage outputs genereated by coverage.py
 .coverage
 coverage.xml
+nosetests.xml
 tags
