@@ -6,9 +6,9 @@ pycsync.version
 Get version of pycsync
 '''
 
-from distutils.version import StrictVersion
+from distutils.version import StrictVersion  # pylint: disable=E0611,F0401
 __version__ = str(StrictVersion('0.1b0'))
 del StrictVersion
 
 if __name__ == '__main__':
-    print(__version__)
+    print __version__
