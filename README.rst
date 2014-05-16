@@ -2,6 +2,10 @@
 Pycsync
 =======
 
+.. image:: https://travis-ci.org/shadowfax-chc/pycsync.svg
+    :target: https://travis-ci.org/shadowfax-chc/pycsync
+    :alt: Build Status
+
 .. image:: https://landscape.io/github/shadowfax-chc/pycsync/master/landscape.png
     :target: https://landscape.io/github/shadowfax-chc/pycsync/master
     :alt: Code Health
