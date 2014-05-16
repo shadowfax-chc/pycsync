@@ -23,7 +23,7 @@ Sync pictures between filesystem and Flickr
 Install
 -------
 
-This uses the python_flickr_api_ (many thanks to `Alexis Mignon`_).
+This uses the python_flickr_api_.
 
 To install latest::
 
@@ -62,4 +62,3 @@ Currently there are several limitaions (Wokring on resolving them).
 
 
 .. _python_flickr_api: https://github.com/alexis-mignon/python-flickr-api
-.. _Alexis Mignon: https://github.com/alexis-mignon
