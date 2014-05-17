@@ -43,6 +43,7 @@ def setup_auth_handler(rootdir):
     set_api_keys()
     authfile = pjoin(rootdir, '.pycsync')
     fapi.set_auth_handler(authfile)
+    return True
 
 
 def set_api_keys():

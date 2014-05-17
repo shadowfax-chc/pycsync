@@ -30,7 +30,12 @@ def mock_input(prompt):
     return 'verifier'
 
 
+def mock_set_auth(authfile):
+    pass
+
+
 auth.fapi.auth.AuthHandler = MockAuthHandler
+auth.fapi.set_auth_handler = mock_set_auth
 
 
 class TestAuth(TestCase):
@@ -46,3 +51,9 @@ class TestAuth(TestCase):
         '''
         self.assertTrue(auth.request_token(self.root_dir,
                                            input_func=mock_input))
+
+    def test_setup_auth_handler(self):
+        '''
+        test_setup_auth_handler
+        '''
+        self.assertTrue(auth.setup_auth_handler(self.root_dir))
