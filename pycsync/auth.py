@@ -10,7 +10,7 @@ from os.path import join as pjoin
 import flickr_api as fapi
 
 
-def request_token(rootdir):
+def request_token(rootdir, input_func=raw_input):
     '''
     Request an auth token. Prompt the user to accept the client API key and
     submit a verifier code. Then record out the auth file to ``rootdir``.
@@ -27,9 +27,10 @@ def request_token(rootdir):
              'Please input the verifier code here: '
     auth = fapi.auth.AuthHandler()
     url = auth.get_authorization_url('write')
-    verifier = raw_input(prompt.format(url))
+    verifier = input_func(prompt.format(url))
     auth.set_verifier(str(verifier))
     auth.write(authfile)
+    return True
 
 
 def setup_auth_handler(rootdir):
