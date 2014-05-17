@@ -5,5 +5,4 @@ install:
 script:
     - tox -r -e py27
 after_success:
-    - coveralls debug
     - coveralls
