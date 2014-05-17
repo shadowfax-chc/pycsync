@@ -15,7 +15,7 @@ import flickr_api as fapi
 from pycsync import auth
 
 
-def sync(rootdir):
+def sync(rootdir, dry_run=False):
     '''
     Preform the syncing.
 
@@ -24,8 +24,8 @@ def sync(rootdir):
     '''
     auth.setup_auth_handler(rootdir)
     photosets = _get_photosets()
-    download(rootdir, photosets)
-    upload(rootdir, photosets)
+    download(rootdir, photosets, dry_run=dry_run)
+    upload(rootdir, photosets, dry_run=dry_run)
 
 
 def _get_photosets():
@@ -42,7 +42,7 @@ def _get_photosets():
     return current_sets
 
 
-def download(rootdir, current_sets):
+def download(rootdir, current_sets, dry_run=False):
     '''
 
     rootdir
@@ -54,7 +54,7 @@ def download(rootdir, current_sets):
     for photoset in current_sets.values():
         dir_ = pjoin(rootdir, photoset.title)
         # If the directory does not exists, make it.
-        if not isdir(dir_):
+        if not isdir(dir_) and not dry_run:
             print 'Creating dir: {0}'.format(photoset.title)
             mkdir(pjoin(dir_))
 
@@ -67,12 +67,13 @@ def download(rootdir, current_sets):
 
             # If no file with this name, download this photo.
             if not matching:
-                msg = 'Downloading photo: {0} to set: {1}'
+                msg = 'Downloading photo: {0} to album: {1}'
                 print msg.format(photo.title, photoset.title)
-                photo.save('{0}.jpg'.format(file_))
+                if not dry_run:
+                    photo.save('{0}.jpg'.format(file_))
 
 
-def upload(rootdir, current_sets):
+def upload(rootdir, current_sets, dry_run=False):
     '''
     Upload files from the ``rootdir`` to Flickr. It will create a PhotoSet for
     each directory in ``rootdir``. It will upload each file in a directory
@@ -110,15 +111,16 @@ def upload(rootdir, current_sets):
         for file_ in files:
             if not splitext(file_)[0] in current_photos:
                 print 'Uploading photo: {0}'.format(file_)
-                uploaded_photos.append(fapi.upload(photo_file=pjoin(fulldir,
-                                                                    file_)))
+                if not dry_run:
+                    uploaded_photos.append(fapi.upload(photo_file=pjoin(fulldir,
+                                                                        file_)))
 
         # If we actually uploaded something.
         if len(uploaded_photos) > 0:
             # If the photo set does not exist. Create it. Using the first
             # Photo that was uploaded as the primary photo.
             if not photoset:
-                print 'Creating photoset {0}'.format(dir_)
+                print 'Creating album {0}'.format(dir_)
                 first = uploaded_photos[0]
                 uploaded_photos = uploaded_photos[1:]
                 photoset = fapi.Photoset.create(title=dir_,
@@ -126,6 +128,6 @@ def upload(rootdir, current_sets):
 
             # Finally add any uploaded photo to the set
             for photo in uploaded_photos:
-                print 'Adding photo: {0} to photoset: {1}'.format(dir_,
-                                                                  photo.title)
+                print 'Adding photo: {0} to album: {1}'.format(dir_,
+                                                               photo.title)
                 photoset.addPhoto(photo=photo)
