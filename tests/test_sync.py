@@ -56,14 +56,14 @@ def mock_upload(photo_file):
     return MockPhoto(os.path.basename(photo_file))
 
 
-#def mock_setup_auth(rootdir):
-#    return True
+def mock_mkdir(newdir):
+    pass
 
 
 sync.fapi.Photoset = MockPhotoSet
 sync.fapi.upload = mock_upload
 sync.fapi.test = MockFapiTest()
-#sync.auth.setup_auth_handler = mock_setup_auth
+sync.mkdir = mock_mkdir
 
 
 class TestSync(TestCase):
@@ -103,6 +103,15 @@ class TestSync(TestCase):
                                                     MockPhoto('photo2')])}
         downloaded = sync.download(self.root_dir, albums)
         self.assertEqual(downloaded, 1)
+
+    def test_download_new_album(self):
+        '''
+        test_download_new_album
+        '''
+        albums = {'album2': MockPhotoSet('album2', [MockPhoto('photo1'),
+                                                    MockPhoto('photo2')])}
+        downloaded = sync.download(self.root_dir, albums)
+        self.assertEqual(downloaded, 2)
 
     def test_populate_album(self):
         '''
