@@ -42,8 +42,28 @@ def _get_photosets():
     return current_sets
 
 
+def exists_local(rootdir, album_title, photo_title):
+    '''
+    Check if the given album.photo exists in the rootdir on the local
+    filesystem.
+
+    rootdir
+        The root directory on the local filesystem
+
+    album_title
+        The title of the album to search for.
+
+    photo_title
+        The title of the photo to search for.
+    '''
+    search_path = pjoin(rootdir, album_title, photo_title)
+    matches = glob('{0}.*'.format(search_path))
+    return True if matches else False
+
+
 def download(rootdir, current_sets, dry_run=False):
     '''
+    Download files from Flickr to ``rootdir``.
 
     rootdir
         The root directory to sync.
@@ -51,26 +71,18 @@ def download(rootdir, current_sets, dry_run=False):
     current_sets
         A dict of PhotoSets by title that are already uploaded.
     '''
-    for photoset in current_sets.values():
-        dir_ = pjoin(rootdir, photoset.title)
+    for album in current_sets.values():
+        dir_ = pjoin(rootdir, album.title)
         # If the directory does not exists, make it.
         if not isdir(dir_) and not dry_run:
-            print 'Creating dir: {0}'.format(photoset.title)
+            print 'Creating dir: {0}'.format(album.title)
             mkdir(pjoin(dir_))
 
-        for photo in photoset.getPhotos():
-            # Name of file without extension, since Flickr does not include it.
-            file_ = pjoin(dir_, photo.title)
-
-            # Due to lack of extension, need to glob for filename.
-            matching = glob('{0}.*'.format(file_))
-
-            # If no file with this name, download this photo.
-            if not matching:
-                msg = 'Downloading photo: {0} to album: {1}'
-                print msg.format(photo.title, photoset.title)
-                if not dry_run:
-                    photo.save('{0}.jpg'.format(file_))
+        for photo in album.getPhotos():
+            if exists_local(rootdir, album.title, photo.title):
+                photo.save('{0}.jpg'.format(pjoin(rootdir,
+                                                  album.title,
+                                                  photo.title)))
 
 
 def upload(rootdir, current_sets, dry_run=False):
