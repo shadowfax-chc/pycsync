@@ -37,8 +37,25 @@ First oauth needs to be setup for the application::
 
     pycsync -a
 
-Then copy the link to a browser. After authorizing pycsync copy the
-``oauth_verifier`` and input it to pycsync.
+    Please visit to get an verifier code:
+    ---------------------------------
+    http://www.flickr.com/services/oauth/authorize?oauth_token=<token>&perms=write
+    ---------------------------------
+    Please input the verifier code here:
+
+Then copy the link to a browser. After authorizing pycsync, the browser should
+display something like::
+
+    <rsp stat="ok">
+      <method>flickr.test.echo</method>
+      <api_key>key</api_key>
+      <oauth_token>token</oauth_token>
+      <oauth_verifier>verifer</oauth_verifier>
+    </rsp>
+
+Where ``key`` is pycsync's api key, ``token`` is the oauth token from above,
+and ``verifier`` is the verifier key for further authentication. Copy the
+``verifier`` and input it to pycsync.
 
 ``NOTE:`` pycsync can either be run from the sync directory or the directory
 can be specified with the ``-p`` option.
