@@ -10,7 +10,7 @@ from os.path import join as pjoin
 import flickr_api as fapi
 
 
-def request_token(rootdir, dry_run=False):
+def request_token(rootdir):
     '''
     Request an auth token. Prompt the user to accept the client API key and
     submit a verifier code. Then record out the auth file to ``rootdir``.
@@ -18,10 +18,6 @@ def request_token(rootdir, dry_run=False):
     rootdir
         The root directory to sync.
     '''
-    if dry_run:
-        print 'Would ask for auth token'
-        return
-
     set_api_keys()
     authfile = pjoin(rootdir, '.pycsync')
     prompt = 'Please visit to get an verifier code:\n' \

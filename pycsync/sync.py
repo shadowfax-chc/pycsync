@@ -15,7 +15,7 @@ import flickr_api as fapi
 from pycsync import auth
 
 
-def sync(rootdir, dry_run=False):
+def sync(rootdir):
     '''
     Preform the syncing.
 
@@ -24,8 +24,8 @@ def sync(rootdir, dry_run=False):
     '''
     auth.setup_auth_handler(rootdir)
     photosets = _get_photosets()
-    download(rootdir, photosets, dry_run=dry_run)
-    upload(rootdir, photosets, dry_run=dry_run)
+    download(rootdir, photosets)
+    upload(rootdir, photosets)
 
 
 def _get_photosets():
@@ -61,7 +61,7 @@ def exists_local(rootdir, album_title, photo_title):
     return True if matches else False
 
 
-def download(rootdir, current_sets, dry_run=False):
+def download(rootdir, current_sets):
     '''
     Download files from Flickr to ``rootdir``.
 
@@ -75,7 +75,7 @@ def download(rootdir, current_sets, dry_run=False):
     for album in current_sets.values():
         dir_ = pjoin(rootdir, album.title)
         # If the directory does not exists, make it.
-        if not isdir(dir_) and not dry_run:
+        if not isdir(dir_):
             print 'Creating dir: {0}'.format(album.title)
             mkdir(pjoin(dir_))
 
@@ -88,7 +88,7 @@ def download(rootdir, current_sets, dry_run=False):
     return downloaded
 
 
-def upload(rootdir, current_sets, dry_run=False):
+def upload(rootdir, current_sets):
     '''
     Upload files from the ``rootdir`` to Flickr. It will create a PhotoSet for
     each directory in ``rootdir``. It will upload each file in a directory
@@ -126,9 +126,8 @@ def upload(rootdir, current_sets, dry_run=False):
         for file_ in files:
             if not splitext(file_)[0] in current_photos:
                 print 'Uploading photo: {0}'.format(file_)
-                if not dry_run:
-                    uploaded_photos.append(fapi.upload(photo_file=pjoin(fulldir,
-                                                                        file_)))
+                uploaded_photos.append(fapi.upload(photo_file=pjoin(fulldir,
+                                                                    file_)))
 
         # If we actually uploaded something.
         if len(uploaded_photos) > 0:

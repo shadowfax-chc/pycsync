@@ -25,10 +25,6 @@ def pycsync_main():
                         action='store_true',
                         default=False,
                         help='Request authorization token')
-    parser.add_argument('-d', '--dry-run',
-                        action='store_true',
-                        default=False,
-                        help='Only print what pycsync would do.')
     parser.add_argument('-v', '--version',
                         action='store_true',
                         default=False,
@@ -40,6 +36,6 @@ def pycsync_main():
     if args.version:
         print version.__version__
     elif args.auth:
-        auth.request_token(args.path, args.dry_run)
+        auth.request_token(args.path)
     else:
-        sync.sync(args.path, args.dry_run)
+        sync.sync(args.path)
