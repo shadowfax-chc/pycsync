@@ -71,6 +71,7 @@ def download(rootdir, current_sets, dry_run=False):
     current_sets
         A dict of PhotoSets by title that are already uploaded.
     '''
+    downloaded = 0
     for album in current_sets.values():
         dir_ = pjoin(rootdir, album.title)
         # If the directory does not exists, make it.
@@ -83,6 +84,8 @@ def download(rootdir, current_sets, dry_run=False):
                 photo.save('{0}.jpg'.format(pjoin(rootdir,
                                                   album.title,
                                                   photo.title)))
+                downloaded += 1
+    return downloaded
 
 
 def upload(rootdir, current_sets, dry_run=False):

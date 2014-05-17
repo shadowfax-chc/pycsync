@@ -11,9 +11,28 @@ import os
 from pycsync import sync
 
 
-class TestExistsLocal(TestCase):
+class MockPhoto(object):
+
+    def __init__(self, title):
+        self.title = title
+
+    def save(self, file_path):
+        pass
+
+
+class MockPhotoSet(object):
+
+    def __init__(self, title, photos):
+        self.title = title
+        self.photos = photos
+
+    def getPhotos(self):
+        return self.photos
+
+
+class TestSync(TestCase):
     '''
-    Tests for test_exists_local
+    Tests for sync module.
     '''
 
     def setUp(self):
@@ -39,3 +58,12 @@ class TestExistsLocal(TestCase):
         '''
         exists = sync.exists_local(self.root_dir, 'no_album1', 'photo1')
         self.assertFalse(exists)
+
+    def test_download(self):
+        '''
+        test_download
+        '''
+        albums = {'album1': MockPhotoSet('album1', [MockPhoto('photo1'),
+                                                    MockPhoto('photo2')])}
+        downloaded = sync.download(self.root_dir, albums)
+        self.assertEqual(downloaded, 1)
