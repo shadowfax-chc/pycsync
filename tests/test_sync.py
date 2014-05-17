@@ -32,6 +32,13 @@ class MockPhotoSet(object):
     def addPhoto(self, photo):
         self.photos.append(photo)
 
+    @classmethod
+    def create(cls, title, primary_photo):
+        return MockPhotoSet(title, [primary_photo])
+
+
+sync.fapi.Photoset = MockPhotoSet
+
 
 class TestSync(TestCase):
     '''
@@ -80,3 +87,12 @@ class TestSync(TestCase):
         added = sync.populate_album(mock_album, mock_photos)
         self.assertEqual(added, 2)
         self.assertEqual(2, len(mock_album.photos))
+
+    def test_create_album(self):
+        '''
+        test_create_album
+        '''
+        title = 'album1'
+        mock_photo = MockPhoto('photo1')
+        album = sync.create_album(title, mock_photo)
+        self.assertEqual(title, album.title)
