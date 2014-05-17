@@ -24,8 +24,9 @@ def sync(rootdir):
     '''
     auth.setup_auth_handler(rootdir)
     photosets = _get_photosets()
-    download(rootdir, photosets)
-    upload(rootdir, photosets)
+    downloaded = download(rootdir, photosets)
+    uploaded = upload(rootdir, photosets)
+    return downloaded, uploaded
 
 
 def _get_photosets():
@@ -80,7 +81,7 @@ def download(rootdir, current_sets):
             mkdir(pjoin(dir_))
 
         for photo in album.getPhotos():
-            if exists_local(rootdir, album.title, photo.title):
+            if not exists_local(rootdir, album.title, photo.title):
                 photo.save('{0}.jpg'.format(pjoin(rootdir,
                                                   album.title,
                                                   photo.title)))

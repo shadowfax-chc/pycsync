@@ -11,6 +11,15 @@ import os
 from pycsync import sync
 
 
+class MockUser(object):
+
+    def __init__(self):
+        self.albums = [MockPhotoSet('album1', [MockPhoto('photo3')])]
+
+    def getPhotosets(self):
+        return self.albums
+
+
 class MockPhoto(object):
 
     def __init__(self, title):
@@ -37,12 +46,24 @@ class MockPhotoSet(object):
         return MockPhotoSet(title, [primary_photo])
 
 
+class MockFapiTest(object):
+
+    def login(self):
+        return MockUser()
+
+
 def mock_upload(photo_file):
     return MockPhoto(os.path.basename(photo_file))
 
 
+#def mock_setup_auth(rootdir):
+#    return True
+
+
 sync.fapi.Photoset = MockPhotoSet
 sync.fapi.upload = mock_upload
+sync.fapi.test = MockFapiTest()
+#sync.auth.setup_auth_handler = mock_setup_auth
 
 
 class TestSync(TestCase):
@@ -116,4 +137,12 @@ class TestSync(TestCase):
         '''
         albums = {}
         uploaded = sync.upload(self.root_dir, albums)
+        self.assertEqual(uploaded, 1)
+
+    def test_sync(self):
+        '''
+        test_sync
+        '''
+        downloaded, uploaded = sync.sync(self.root_dir)
+        self.assertEqual(downloaded, 1)
         self.assertEqual(uploaded, 1)
