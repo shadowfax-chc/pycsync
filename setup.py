@@ -35,18 +35,18 @@ with open(PYCSYNC_REQS) as rfh:
 SETUP_KWARGS = {
     'name': 'pycsync',
     'version': VER,
-    'url': '',
-    'license': '',
-    'description': 'Open Source BSP Level Creator',
+    'url': 'https://github.com/shadowfax-chc/pycsync',
+    'license': 'ISC',
+    'description': 'Sync local photos with Flickr',
     'author': 'Timothy F Messier',
     'author_email': 'tim.messier@gmail.com',
     'classifiers': [
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
-        'Development Status :: 1 - Planning',
-        'Environment :: X11 Applications :: GTK',
+        'Development Status :: 3 - Beta',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',
+        'Environment :: Console',
         ('License :: OSI Approved ::'
          ' ISC License (ISCL)'),
         'Operating System :: POSIX :: Linux',
