@@ -111,10 +111,10 @@ def upload(rootdir, current_sets):
         current_photos = list()
 
         # Attempt to get the set that would match this dir.
-        photoset = current_sets.get(dir_)
-        if photoset:
+        album = current_sets.get(dir_)
+        if album:
             # Set already exists. Get all photos in set by title.
-            for photo in photoset.getPhotos():
+            for photo in album.getPhotos():
                 current_photos.append(photo.title)
 
         # Get all the files in this dir.
@@ -129,19 +129,34 @@ def upload(rootdir, current_sets):
                 uploaded_photos.append(fapi.upload(photo_file=pjoin(fulldir,
                                                                     file_)))
 
-        # If we actually uploaded something.
         if len(uploaded_photos) > 0:
-            # If the photo set does not exist. Create it. Using the first
-            # Photo that was uploaded as the primary photo.
-            if not photoset:
-                print 'Creating album {0}'.format(dir_)
-                first = uploaded_photos[0]
-                uploaded_photos = uploaded_photos[1:]
-                photoset = fapi.Photoset.create(title=dir_,
-                                                primary_photo=first)
+            if not album:
+                album = create_album(dir_, uploaded_photos[0])
+            populate_album(album, uploaded_photos[1:])
 
-            # Finally add any uploaded photo to the set
-            for photo in uploaded_photos:
-                print 'Adding photo: {0} to album: {1}'.format(dir_,
-                                                               photo.title)
-                photoset.addPhoto(photo=photo)
+
+def create_album(title, primary_photo):
+    '''
+    Create album on Flick.
+
+    title
+        Title of album
+    primary_photo
+        Primary photo to display for album cover.
+    '''
+    print 'Creating album {0}'.format(title)
+    album = fapi.Photoset.create(title=title, primary_photo=primary_photo)
+    return album
+
+
+def populate_album(album, photos):
+    '''
+    Create an album on Flickr.
+    '''
+    count = 0
+    for photo in photos:
+        print 'Adding photo: {0} to album: {1}'.format(photo.title,
+                                                       album.title)
+        album.addPhoto(photo=photo)
+        count += 1
+    return count

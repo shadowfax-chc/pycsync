@@ -29,6 +29,9 @@ class MockPhotoSet(object):
     def getPhotos(self):
         return self.photos
 
+    def addPhoto(self, photo):
+        self.photos.append(photo)
+
 
 class TestSync(TestCase):
     '''
@@ -67,3 +70,13 @@ class TestSync(TestCase):
                                                     MockPhoto('photo2')])}
         downloaded = sync.download(self.root_dir, albums)
         self.assertEqual(downloaded, 1)
+
+    def test_populate_album(self):
+        '''
+        test_populate_album
+        '''
+        mock_album = MockPhotoSet('album1', [])
+        mock_photos = [MockPhoto('photo1'), MockPhoto('photo2')]
+        added = sync.populate_album(mock_album, mock_photos)
+        self.assertEqual(added, 2)
+        self.assertEqual(2, len(mock_album.photos))
