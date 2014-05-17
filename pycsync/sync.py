@@ -102,7 +102,7 @@ def upload(rootdir, current_sets):
     current_sets
         A dict of PhotoSets by title that are already uploaded.
     '''
-
+    uploaded = 0
     dirs = [dir_ for dir_ in listdir(rootdir) if isdir(pjoin(rootdir, dir_))]
 
     for dir_ in dirs:
@@ -128,11 +128,13 @@ def upload(rootdir, current_sets):
                 print 'Uploading photo: {0}'.format(file_)
                 uploaded_photos.append(fapi.upload(photo_file=pjoin(fulldir,
                                                                     file_)))
+                uploaded += 1
 
         if len(uploaded_photos) > 0:
             if not album:
                 album = create_album(dir_, uploaded_photos[0])
             populate_album(album, uploaded_photos[1:])
+    return uploaded
 
 
 def create_album(title, primary_photo):

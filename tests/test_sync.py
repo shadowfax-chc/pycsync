@@ -37,7 +37,12 @@ class MockPhotoSet(object):
         return MockPhotoSet(title, [primary_photo])
 
 
+def mock_upload(photo_file):
+    return MockPhoto(os.path.basename(photo_file))
+
+
 sync.fapi.Photoset = MockPhotoSet
+sync.fapi.upload = mock_upload
 
 
 class TestSync(TestCase):
@@ -96,3 +101,19 @@ class TestSync(TestCase):
         mock_photo = MockPhoto('photo1')
         album = sync.create_album(title, mock_photo)
         self.assertEqual(title, album.title)
+
+    def test_upload(self):
+        '''
+        test_upload
+        '''
+        albums = {'album1': MockPhotoSet('album1', [])}
+        uploaded = sync.upload(self.root_dir, albums)
+        self.assertEqual(uploaded, 1)
+
+    def test_upload_no_albums(self):
+        '''
+        test_upload_no_albums
+        '''
+        albums = {}
+        uploaded = sync.upload(self.root_dir, albums)
+        self.assertEqual(uploaded, 1)
