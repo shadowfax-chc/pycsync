@@ -27,7 +27,7 @@ This uses the python_flickr_api_.
 
 To install latest::
 
-    pip install https://github.com/shadowfax-chc/pycsync/tarball/master
+    pip install pycsync
 
 
 Usage
@@ -51,14 +51,11 @@ Now to sync simply run::
 Limitations
 -----------
 
-Currently there are several limitaions (Wokring on resolving them).
-
-1. Only syncs a file once. Currently once a file exists, it will not be synced
-   if it changes.
-2. Requires flat file structure. The file system layout must contain one level
-   of directories with files in them. The directories will be mapped to Photo
-   Sets. Any subdirectories will be ignored. Also any top-level files will be
-   ignored.
+1. Flickr stores photos in albums. There is no concept of a sub-album. Thus
+   this requires a flat file structure for the local files.. The file system
+   layout must contain one level of directories with files in them. The
+   directories will be mapped to Albums. Any subdirectories will be ignored.
+   Also any top-level files will be ignored.
 
 
 .. _python_flickr_api: https://github.com/alexis-mignon/python-flickr-api
