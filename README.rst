@@ -18,6 +18,10 @@ Pycsync
     :target: https://gemnasium.com/shadowfax-chc/pycsync
     :alt: Dependency Status
 
+.. image:: https://pypip.in/v/pycsync/badge.png
+    :target: https://pypi.python.org/pypi/pycsync/
+    :alt: Pypi
+
 Sync pictures between filesystem and Flickr
 
 Install
