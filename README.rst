@@ -77,7 +77,7 @@ Limitations
 -----------
 
 1. Flickr stores photos in albums. There is no concept of a sub-album. Thus
-   this requires a flat file structure for the local files.. The file system
+   this requires a flat file structure for the local files. The file system
    layout must contain one level of directories with files in them. The
    directories will be mapped to Albums. Any subdirectories will be ignored.
    Also any top-level files will be ignored.
