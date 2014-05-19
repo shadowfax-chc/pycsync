@@ -20,7 +20,11 @@ Pycsync
 
 .. image:: https://pypip.in/v/pycsync/badge.png
     :target: https://pypi.python.org/pypi/pycsync/
-    :alt: Pypi
+    :alt: Pypi Version
+
+.. image:: https://pypip.in/d/pycsync/badge.png
+    :target: https://pypi.python.org/pypi/pycsync/
+    :alt: Pypi Downloads
 
 Sync pictures between filesystem and Flickr
 
