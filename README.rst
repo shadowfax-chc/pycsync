@@ -18,11 +18,11 @@ Pycsync
     :target: https://gemnasium.com/shadowfax-chc/pycsync
     :alt: Dependency Status
 
-.. image:: https://pypip.in/v/pycsync/badge.png
+.. image:: https://img.shields.io/pypi/v/pycsync.svg
     :target: https://pypi.python.org/pypi/pycsync/
     :alt: Pypi Version
 
-.. image:: https://pypip.in/d/pycsync/badge.png
+.. image:: https://img.shields.io/pypi/dm/pycsync.svg
     :target: https://pypi.python.org/pypi/pycsync/
     :alt: Pypi Downloads
 
